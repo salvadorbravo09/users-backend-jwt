@@ -83,7 +83,21 @@ const login = async (req, res) => {
   }
 };
 
+const profile = async (req, res) => {
+  try {
+    const user = await UserModel.findOneByEmail(req.email);
+    return res.json({ ok: true, msg: user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: "Error server",
+    });
+  }
+};
+
 export const UserController = {
   register,
   login,
+  profile,
 };
