@@ -1,6 +1,6 @@
 import { db } from "../database/connection.database.js";
 
-export const create = async ({ email, password, username }) => {
+const create = async ({ email, password, username }) => {
   const query = {
     text: `
       INSERT INTO users (email, password, username)
@@ -13,7 +13,7 @@ export const create = async ({ email, password, username }) => {
   return rows;
 };
 
-export const findOneByEmail = async (email) => {
+const findOneByEmail = async (email) => {
   const query = {
     text: `
     SELECT * FROM users
@@ -22,5 +22,10 @@ export const findOneByEmail = async (email) => {
     values: [email],
   };
   const { rows } = await db.query(query);
-  return rows;
+  return rows.length > 0 ? rows[0] : null;
+};
+
+export const UserModel = {
+  create,
+  findOneByEmail,
 };
